@@ -1,0 +1,117 @@
+/**
+ * ConnectionController
+ *
+ * @description :: Server-side actions for handling incoming requests.
+ * @help        :: See https://sailsjs.com/docs/concepts/actions
+ */
+
+module.exports = {
+  async createRequest(req,res){
+    try {
+      var param = req.allParams();
+      var requesterId = param.userID;
+      var ToUserId = param.id
+
+      
+      //check user exists or not
+      const connectReq = await ConnectRequest.create({
+        user:ToUserId,
+        friendUserID:requesterId,
+      }).fetch();
+      return res.ok(connectReq);
+      
+    } catch (error) {
+      return res.serverError(error);
+
+    }
+  },
+
+  async getAllRequest(req,res){
+    try {
+      var param = req.allParams();  
+      const userId = param.id;
+      if(!userId){
+        return res.badRequest({err:"User ID is required"});
+      }
+      const request = await User.find({
+        id:param.id,
+    }).populate('connectionsRequest');
+
+    return res.ok(request);
+
+    } catch (error) {
+      return res.serverError(error);
+
+    }
+},
+
+
+async accept(req,res){
+  try {
+    var param = req.allParams(); 
+    var requesterId = param.userID;
+    var ToUserId = param.id
+    // if(!userId){
+    //   return res.badRequest({err:"User ID is required"});
+    // }
+    
+    const delReq = await ConnectRequest.destroy({
+      user:ToUserId,
+      friendUserID:requesterId,
+    }).fetch();
+    const connect = await Connections.create({
+      user:ToUserId,
+      friendUserID:requesterId,
+    }).fetch();
+    return res.ok(connect);
+
+  } catch (error) {
+    return res.serverError(error);
+
+  }
+},
+
+
+async reject(req,res){
+  try {
+    var param = req.allParams(); 
+    var requesterId = param.userID;
+    var ToUserId = param.id
+    // if(!userId){
+    //   return res.badRequest({err:"User ID is required"});
+    // }
+    const connectReq = await ConnectRequest.destroy({
+      user:ToUserId,
+      friendUserID:requesterId,
+    }).fetch();
+    return res.ok(connectReq);
+
+  } catch (error) {
+    return res.serverError(error);
+
+  }
+},
+
+async getAllConnections(req,res){
+  try {
+    var param = req.allParams();  
+    const userId = param.id;
+    if(!userId){
+      return res.badRequest({err:"User ID is required"});
+    }
+    const request = await User.find({
+      id:param.id,
+  }).populate('connections');
+
+  return res.ok(request);
+
+  } catch (error) {
+    return res.serverError(error);
+
+  }
+},
+
+
+
+};
+
