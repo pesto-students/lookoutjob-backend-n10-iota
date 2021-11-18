@@ -38,7 +38,11 @@ module.exports.routes = {
 
     'GET /user/:id/connections' : 'ConnectionController.getAllConnections',
 
-    
+// sockets
+
+
+'POST /comment/create' : 'CommentController.createComment',
+ 'GET /comment/subscribe' : 'CommentController.subscribe'
 
    
     

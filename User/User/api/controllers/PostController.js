@@ -27,6 +27,9 @@ module.exports = {
                 postDetail:postdetails.id,
                 user:userID,
             }).fetch();
+
+////get aall connections producer 
+
             return res.ok(result);
 
 
@@ -85,23 +88,23 @@ module.exports = {
     },
 
     async getAllComments(req,res){
+        
+       
         try {
             var param = req.allParams();
 
-            const comments = await Post.find(
-                {
-                    id:param.pid,
-                }
-            ).populate('postcomments');
-
-            return res.ok(comments);
-
+            const allc= await PostComments.find({
+                post:param.pid,
+            }
+            );
+            return res.ok(allc);
         } catch (error) {
-            res.serverError(error);
-
+            res.serverError(error); 
         }
+    
     },
 
+    
 
 };
 
