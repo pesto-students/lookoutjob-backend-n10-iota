@@ -12,9 +12,16 @@ module.exports = {
     postId:{
       type:'string',
     },
-    typeof:{
+    content:{
       type:'string',
     },
+    title:{
+      type:'string',
+    },
+    imageURL:{
+      type:'string',
+    },
+    
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
     //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝

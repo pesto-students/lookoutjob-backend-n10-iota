@@ -17,6 +17,11 @@ module.exports.routes = {
     'GET /user/:id/skills' : 'UserController.findOneSkills',
     'GET /user/:id/details' : 'UserController.findOneDetails',
 
+    'POST /login' : 'UserController.login',
+
+
+
+
     'POST /user/:id/education' : 'SkillsEducationDetailsController.updateEducation',
     'POST /user/:id/skills' : 'SkillsEducationDetailsController.updateSkills',
     'POST /user/:id/details' : 'SkillsEducationDetailsController.updateDetails',
@@ -31,6 +36,9 @@ module.exports.routes = {
     //connections endpoints
     'POST /user/:id/connect' : 'ConnectionController.createRequest',
     'GET /user/:id/connect' : 'ConnectionController.getAllRequest',
+    'GET /user/:id/myrequest' : 'ConnectionController.getAllRequestOnLoggedUser',
+    
+    
 
     
     'POST /user/:id/accept' : 'ConnectionController.accept',
@@ -38,11 +46,13 @@ module.exports.routes = {
 
     'GET /user/:id/connections' : 'ConnectionController.getAllConnections',
 
-// sockets
+    'GET /user/:id/timeline' : 'TimelineController.getTimeline',
 
 
-'POST /comment/create' : 'CommentController.createComment',
- 'GET /comment/subscribe' : 'CommentController.subscribe'
+
+
+
+    
 
    
     

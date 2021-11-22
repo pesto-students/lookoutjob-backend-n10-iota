@@ -18,5 +18,21 @@ module.exports.policies = {
   ***************************************************************************/
 
   // '*': true,
+  PostController:{
+    '*': 'isLoggedIn'
+  },
+  ConnectionController:{
+    '*': 'isLoggedIn'
+  },
+  SkillsEducationDetailsController:{
+    '*': 'isLoggedIn'
+  },
+  TimelineController:{
+    '*': 'isLoggedIn'
+  },
+
+  UserController:{
+    '*': true
+  }
 
 };

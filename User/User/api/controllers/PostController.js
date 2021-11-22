@@ -5,6 +5,9 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
+const getFriends = require("../utils/getFriends");
+const sqsSend = require("../utils/sqsSend");
+
 
 
 
@@ -22,13 +25,30 @@ module.exports = {
                 content:param.content,
                 imageURL:param.imageURL,
             }).fetch();
+            
+
             const result = await Post.create({
                 title:param.title,
                 postDetail:postdetails.id,
                 user:userID,
             }).fetch();
+            
+        
+        const connections = await User.find({
+            id:param.id,
+        }).populate('connections');
 
-////get aall connections producer 
+        const friends = getFriends.getconnections(connections[0]['connections']);
+       
+    var message = {
+        "postId": result.id,
+        "content":  postdetails.content,
+        "title": result.title,
+        "imageURL": param.imageURL,
+        "connections":friends,
+    }
+      sqsSend.sendSqs(message)
+
 
             return res.ok(result);
 
@@ -88,23 +108,23 @@ module.exports = {
     },
 
     async getAllComments(req,res){
-        
-       
         try {
             var param = req.allParams();
 
-            const allc= await PostComments.find({
-                post:param.pid,
-            }
-            );
-            return res.ok(allc);
+            const comments = await Post.find(
+                {
+                    id:param.pid,
+                }
+            ).populate('postcomments');
+
+            return res.ok(comments);
+
         } catch (error) {
-            res.serverError(error); 
+            res.serverError(error);
+
         }
-    
     },
 
-    
 
 };
 

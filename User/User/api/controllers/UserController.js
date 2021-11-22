@@ -5,6 +5,8 @@
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
 
+const jwtService = require("../utils/jwtService");
+
 module.exports = {
   
     async create(req,res){
@@ -116,11 +118,27 @@ module.exports = {
         catch (err) {
           return res.serverError(err);
         }
-    },
+   
+      },
 
     
 
+      async login(req,res){
+        try {
+          var param = req.allParams();
+          const email = param.email;
+      const user = await User.findOne({email});
+      if(!user){
+        return res.notFound({err: 'user does not exist'});
+      }
+      const token = jwtService.issuer({user: user.id});
+      
+      return res.ok({token});
 
+        } catch (error) {
+          return res.serverError(err);
+        }
+      }
 
+      
 };
-

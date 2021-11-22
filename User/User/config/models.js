@@ -66,6 +66,7 @@ module.exports.models = {
   * or updated.                                                              *
   *                                                                          *
   * > For more info, see:                                                    *
+  * 
   * > https://sailsjs.com/docs/concepts/orm/model-settings#?attributes       *
   *                                                                          *
   ***************************************************************************/

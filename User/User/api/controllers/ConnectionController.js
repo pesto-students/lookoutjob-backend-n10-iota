@@ -63,6 +63,10 @@ async accept(req,res){
       user:ToUserId,
       friendUserID:requesterId,
     }).fetch();
+    const connect_other = await Connections.create({
+      user:requesterId,
+      friendUserID:ToUserId,
+    }).fetch();
     return res.ok(connect);
 
   } catch (error) {
@@ -111,6 +115,26 @@ async getAllConnections(req,res){
   }
 },
 
+
+
+async getAllRequestOnLoggedUser(req,res){
+  try {
+    var param = req.allParams();  
+    const userId = param.id;
+    if(!userId){
+      return res.badRequest({err:"User ID is required"});
+    }
+    const request = await ConnectRequest.find({
+      friendUserID:param.id,
+  });
+    
+  return res.ok(request);
+
+  } catch (error) {
+    return res.serverError(error);
+
+  }
+},
 
 
 };
