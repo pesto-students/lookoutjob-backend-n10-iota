@@ -6,8 +6,9 @@
   "keywords": [],
   "dependencies": {
     "@sailshq/lodash": "^3.10.3",
-    "aws-sdk": "^2.1032.0",
+    "aws-sdk": "^2.1037.0",
     "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.21",
     "sails": "^1.5.0",
     "sails-hook-orm": "^4.0.0",
     "sails-hook-sockets": "^2.0.0",

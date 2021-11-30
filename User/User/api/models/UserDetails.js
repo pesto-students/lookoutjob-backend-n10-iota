@@ -24,6 +24,12 @@ module.exports = {
     role:{
       type:'string',
     },
+
+    imageURL:{
+      type:'string',
+    },
+
+
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
     //  ║╣ ║║║╠╩╗║╣  ║║╚═╗
     //  ╚═╝╩ ╩╚═╝╚═╝═╩╝╚═╝

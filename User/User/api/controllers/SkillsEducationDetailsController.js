@@ -12,7 +12,9 @@ module.exports = {
     async updateEducation(req,res){
         try {   
             var  param =  req.allParams();
-            const user = await User.findOne({
+            
+	console.log(param);
+	const user = await User.findOne({
                   id:param.id,
             });
             var attributes={};
@@ -87,7 +89,10 @@ module.exports = {
             if(param.role){
                 attributes.role=param.role;
             }
-            
+            if(param.imageURL){
+                attributes.imageURL=param.imageURL;
+            }
+ 
             const details = await UserDetails.update({
               id:user.userDetails,
             },
