@@ -21,7 +21,6 @@ module.exports.routes = {
 
 
 
-
     'POST /user/:id/education' : 'SkillsEducationDetailsController.updateEducation',
     'POST /user/:id/skills' : 'SkillsEducationDetailsController.updateSkills',
     'POST /user/:id/details' : 'SkillsEducationDetailsController.updateDetails',
@@ -47,6 +46,10 @@ module.exports.routes = {
     'GET /user/:id/connections' : 'ConnectionController.getAllConnections',
 
     'GET /user/:id/timeline' : 'TimelineController.getTimeline',
+
+
+        'POST /user/search' : 'UserController.search',
+
 
 
 

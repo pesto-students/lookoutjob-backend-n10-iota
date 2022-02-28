@@ -9,6 +9,7 @@
     "aws-sdk": "^2.1037.0",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
+    "package.json": "^2.0.1",
     "sails": "^1.5.0",
     "sails-hook-orm": "^4.0.0",
     "sails-hook-sockets": "^2.0.0",

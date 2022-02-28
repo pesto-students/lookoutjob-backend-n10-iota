@@ -103,13 +103,28 @@ async getAllConnections(req,res){
     if(!userId){
       return res.badRequest({err:"User ID is required"});
     }
-    const request = await User.find({
-      id:param.id,
-  }).populate('connections');
+    
+  const request = await Connections.find({
+    where: {user:param.id,},  
+    select: ['friendUserID',]
+})
 
-  return res.ok(request);
+var results = [];
 
-  } catch (error) {
+for (let index = 0; index < request.length; index++) {
+  const element = request[index];
+  console.log(element.friendUserID)
+  const details = await UserDetails.findOne({
+    id:element.friendUserID,
+  });
+  results.push(details)
+}
+
+  return res.ok(results);
+  
+
+  } 
+  catch (error) {
     return res.serverError(error);
 
   }

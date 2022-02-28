@@ -128,34 +128,51 @@ module.exports = {
    
       },
 
-    
-
       async login(req,res){
         try {
           var param = req.allParams();
-          console.log(param);
 	const email = param.email;
        if(!email){
         return res.notFound({err: 'no mail does not exist'});
       }
-
-		const user = await User.findOne({email});
-		
-	
-
-
-
-
+		  const user = await User.findOne({email});
       const token = jwtService.issuer({user: user.id,type:user.acctype});
-      
       return res.ok({token});
-
-        } catch (error) {
+        } 
+  catch (error) {
  return res.notFound({err: 'user does not exist'});
+     }
+  },
 
-          return res.serverError(error);
-        }
-      }
 
+  async search(req,res){
+
+
+    try {
+      var param = req.allParams();
+
+      var searchResults = await UserDetails.find({
+
+        name : {
+          'contains' : param.name
+        },
+        // currentCompany:{
+        //   'contains' : param.name
+        // },
+        // where: { name : {contains : param.name}, currentCompany:{ contains : param.name},},  
       
+      });
+
+
+
+      return res.ok(searchResults);
+
+    } catch (error) {
+      return res.serverError(error);
+    }
+    
+
+
+  }
+
 };
