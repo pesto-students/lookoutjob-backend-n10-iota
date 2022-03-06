@@ -1,0 +1,178 @@
+/**
+ * UserController
+ *
+ * @description :: Server-side actions for handling incoming requests.
+ * @help        :: See https://sailsjs.com/docs/concepts/actions
+ */
+
+const jwtService = require("../utils/jwtService");
+
+module.exports = {
+  
+    async create(req,res){
+        try{
+            var param = req.allParams();
+            if(!param.email){
+                return res.badRequest({err: 'Email is required field'});
+            }
+            if(!param.name){
+                return res.badRequest({err: 'name is required field'});
+            }
+	 if(!param.type){
+                return res.badRequest({err: 'type is required field'});
+            }
+
+            const education = await CandidateEducation.create({
+                college:"Please edit your college",
+                degree:"Please edit your degree",
+                stYear:0000,
+                endYear:0000,
+            }).fetch();
+            
+            
+            const skills = await CandidateSkills.create({
+                skills:"Please enter your skils here",
+            }).fetch();
+            const userDetails = await UserDetails.create({
+                name:param.name,
+                currentCompany:"Enter your current company here",
+                role:"enter your role",
+                imageURL:""
+            }).fetch();
+            
+            
+            const result = await User.create({
+		acctype:param.type,
+                email:param.email,
+                userDetails:userDetails.id,
+                candidateSkills:skills.id,
+                candidateEducation:education.id,
+            }).fetch();
+            return res.ok(result);
+        }
+        catch(err){
+            return res.serverError(err);
+        }
+    },
+
+
+
+    async find(req, res){
+        try {
+          const users = await User.find();
+          return res.ok(users);
+        }
+        catch (err) {
+          return res.serverError(err);
+        }
+    },
+
+    async findOne(req, res){
+        try {
+          var  param =  req.allParams();
+          const user = await User.findOne({
+                id:param.id,
+          });
+          return res.ok(user);
+        }
+        catch (err) {
+          return res.serverError(err);
+        }
+    },
+    
+    async findOneEducation(req, res){
+        try {
+          var  param =  req.allParams();
+          const user = await User.findOne({
+                id:param.id,
+          });
+          const education = await CandidateEducation.findOne({
+            id:user.candidateEducation,
+          });
+          return res.ok(education);
+        }
+        catch (err) {
+          return res.serverError(err);
+        }
+    },
+
+    async findOneSkills(req, res){
+        try {
+          var  param =  req.allParams();
+          const user = await User.findOne({
+                id:param.id,
+          });
+          const skills = await CandidateSkills.findOne({
+            id:user.candidateSkills,
+          });
+          return res.ok(skills);
+        }
+        catch (err) {
+          return res.serverError(err);
+        }
+    },
+    async findOneDetails(req, res){
+        try {
+          var  param =  req.allParams();
+          const user = await User.findOne({
+                id:param.id,
+          });
+          const details = await UserDetails.findOne({
+            id:user.userDetails,
+          });
+          return res.ok(details);
+        }
+        catch (err) {
+          return res.serverError(err);
+        }
+   
+      },
+
+      async login(req,res){
+        try {
+          var param = req.allParams();
+	const email = param.email;
+       if(!email){
+        return res.notFound({err: 'no mail does not exist'});
+      }
+		  const user = await User.findOne({email});
+      const token = jwtService.issuer({user: user.id,type:user.acctype});
+      return res.ok({token});
+        } 
+  catch (error) {
+ return res.notFound({err: 'user does not exist'});
+     }
+  },
+
+
+  async search(req,res){
+
+
+    try {
+      var param = req.allParams();
+
+      var searchResults = await UserDetails.find({
+
+        name : {
+          'contains' : param.name
+        },
+        // currentCompany:{
+        //   'contains' : param.name
+        // },
+        // where: { name : {contains : param.name}, currentCompany:{ contains : param.name},},  
+      
+      });
+
+
+
+      return res.ok(searchResults);
+
+    } catch (error) {
+      return res.serverError(error);
+    }
+    
+
+
+  }
+
+};
