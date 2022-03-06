@@ -142,8 +142,20 @@ async getAllRequestOnLoggedUser(req,res){
     const request = await ConnectRequest.find({
       friendUserID:param.id,
   });
-    
-  return res.ok(request);
+
+var results = [];
+
+for (let index = 0; index < request.length; index++) {
+  const element = request[index];
+  console.log(element.user)
+  const details = await UserDetails.findOne({
+    id:element.user,
+  });
+  results.push(details)
+}
+
+  return res.ok(results);    
+//  return res.ok(request);
 
   } catch (error) {
     return res.serverError(error);
